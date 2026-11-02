@@ -1,0 +1,345 @@
+/* 카드 한 장의 디자인 (디자인 기준 640×897, --s 배율로 축소). 모든 클래스는 cf- 접두어 */
+.cf-box {
+  position: relative;
+  flex-shrink: 0;
+}
+.cf-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* 카드 = 칼선(클립). 안쪽 sheet = 인쇄물(커팅 이탈 시 평행 이동) */
+.cf-card {
+  --s: 0.5;
+  --ox: 0px;
+  --oy: 0px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 640px;
+  height: 897px;
+  transform: scale(var(--s));
+  transform-origin: 0 0;
+  background: #fff;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  font-family: 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', 'Segoe UI', sans-serif;
+  color: #1b1b24;
+}
+.cf-sheet {
+  position: absolute;
+  inset: 0;
+  border-radius: 30px;
+  background: #e8e8ee;
+  transform: translate(var(--ox), var(--oy));
+  /* 인쇄물 바깥: 흰 여백(gutter) → 그 너머는 옆 카드의 프레임 */
+  box-shadow: 0 0 0 34px #fbfbfd, 0 0 0 1400px var(--c1);
+}
+.cf-in {
+  position: absolute;
+  inset: 12px;
+  border-radius: 22px;
+  background: linear-gradient(160deg, var(--c2), var(--c1));
+  overflow: hidden;
+}
+
+/* 헤더 */
+.cf-hdr {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 10px;
+  height: 84px;
+  border-radius: 18px 18px 0 0;
+  background: linear-gradient(90deg, var(--c3), #fff 55%, var(--c3));
+  border: 2px solid var(--gold);
+}
+.cf-chip {
+  position: absolute;
+  left: 14px;
+  top: 22px;
+  padding: 5px 16px;
+  border-radius: 20px;
+  background: #fff;
+  border: 2px solid #c9c9d2;
+  font-size: 17px;
+  font-weight: 700;
+}
+.cf-nm {
+  position: absolute;
+  left: 112px;
+  top: 12px;
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+.cf-hp {
+  position: absolute;
+  right: 78px;
+  top: 26px;
+  font-size: 20px;
+  font-weight: 800;
+}
+.cf-hp b {
+  font-size: 44px;
+  margin-left: 4px;
+  letter-spacing: -1px;
+}
+.cf-ticon {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 -6px 10px rgba(0, 0, 0, 0.22), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.cf-ticon svg {
+  width: 34px;
+  height: 34px;
+  fill: #fff;
+}
+.cf-flav {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 96px;
+  height: 24px;
+  font-size: 13.5px;
+  font-style: italic;
+  text-align: center;
+  line-height: 24px;
+  background: linear-gradient(90deg, transparent, var(--c3) 20%, var(--c3) 80%, transparent);
+  color: #333;
+}
+
+/* 원화 창 */
+.cf-art {
+  position: absolute;
+  left: 14px;
+  top: 124px;
+  width: 588px;
+  height: 420px;
+  border-radius: 12px;
+  overflow: hidden;
+  outline: 4px solid var(--gold);
+  outline-offset: -1px;
+  background: #000;
+}
+.cf-art svg,
+.cf-art-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.cf-art-img {
+  object-fit: cover;
+}
+
+/* 기술 */
+.cf-atk {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  border-radius: 14px;
+  background: var(--box);
+  border: 3px solid var(--gold);
+  padding: 10px 16px;
+}
+.cf-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cf-an {
+  font-size: 28px;
+  font-weight: 900;
+  margin-left: 8px;
+  flex: 1;
+}
+.cf-ad {
+  font-size: 32px;
+  font-weight: 900;
+}
+.cf-atk p {
+  margin: 6px 2px 0;
+  font-size: 15px;
+  line-height: 1.35;
+  color: #2c2c36;
+}
+.cf-en {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 -6px 10px rgba(0, 0, 0, 0.22), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.cf-en svg {
+  width: 26px;
+  height: 26px;
+  fill: #fff;
+}
+.cf-en.sm {
+  width: 24px;
+  height: 24px;
+  border-width: 2px;
+}
+.cf-en.sm svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* 약점 / 저항력 / 후퇴 */
+.cf-stats {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 778px;
+  height: 32px;
+  display: flex;
+  gap: 10px;
+}
+.cf-stats > div {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  border-radius: 16px;
+  background: var(--c3);
+  border: 2px solid var(--gold);
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cf-stats i {
+  font-style: normal;
+  color: #666;
+  font-weight: 400;
+  margin-left: auto;
+}
+
+/* 하단: 로고 / 번호 / 설명 */
+.cf-foot {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 820px;
+  height: 52px;
+}
+.cf-logo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  font-weight: 900;
+  font-size: 21px;
+  color: #ffcb05;
+  -webkit-text-stroke: 4px #2a5ea8;
+  paint-order: stroke fill;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+.cf-logo.cf-hide {
+  visibility: hidden;
+}
+.cf-logo-x {
+  z-index: 6;
+  transform-origin: 0 50%;
+}
+.cf-no {
+  position: absolute;
+  left: 0;
+  top: 32px;
+  font-size: 12px;
+  color: #fff;
+  font-weight: 700;
+}
+.cf-no b {
+  background: #111;
+  border-radius: 3px;
+  padding: 0 5px;
+  margin-right: 6px;
+}
+.cf-txt {
+  position: absolute;
+  left: 166px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 14px;
+  background: linear-gradient(90deg, var(--c2), var(--c1));
+  border: 2px solid var(--gold);
+  color: #fff;
+  font-size: 13.5px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  line-height: 1.3;
+}
+
+/* ── 홀로: 카드 전체 = 레인보우 스윕, 원화 창 = 갤럭시 별가루/성운 ── */
+.cf-holo .cf-sheet::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 30px;
+  pointer-events: none;
+  mix-blend-mode: color-dodge;
+  opacity: 0.52;
+  background: linear-gradient(115deg, transparent 18%, rgba(255, 80, 160, 0.6) 31%, rgba(255, 230, 90, 0.6) 42%, rgba(90, 255, 200, 0.6) 53%, rgba(90, 150, 255, 0.6) 64%, transparent 78%);
+  background-size: 260% 260%;
+  animation: cf-sweep 4s ease-in-out infinite;
+}
+.cf-holo .cf-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: radial-gradient(circle at 22% 24%, #fff 0 2.2px, rgba(255, 255, 255, 0.35) 3px, transparent 7px),
+    radial-gradient(circle at 68% 14%, #fff 0 2.8px, rgba(200, 220, 255, 0.4) 4px, transparent 9px),
+    radial-gradient(circle at 82% 62%, #fff 0 2.2px, rgba(255, 255, 255, 0.35) 3px, transparent 7px),
+    radial-gradient(circle at 36% 72%, #fff3c0 0 2.6px, rgba(255, 230, 160, 0.4) 4px, transparent 9px),
+    radial-gradient(circle at 55% 40%, #fff 0 1.6px, transparent 5px),
+    radial-gradient(circle at 12% 82%, #fff 0 1.6px, transparent 5px),
+    radial-gradient(ellipse at 28% 18%, rgba(140, 90, 255, 0.5), transparent 60%),
+    radial-gradient(ellipse at 78% 66%, rgba(0, 215, 255, 0.42), transparent 60%),
+    radial-gradient(ellipse at 48% 92%, rgba(255, 90, 210, 0.42), transparent 58%);
+  background-size: 84px 84px, 126px 126px, 104px 104px, 148px 148px, 70px 70px, 96px 96px, 100% 100%, 100% 100%, 100% 100%;
+  animation: cf-twinkle 2.2s ease-in-out infinite;
+}
+.cf-still.cf-holo .cf-sheet::after,
+.cf-still.cf-holo .cf-art::after {
+  animation: none;
+}
+.cf-still.cf-holo .cf-sheet::after {
+  background-position: 35% 50%;
+}
+@keyframes cf-sweep {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes cf-twinkle {
+  0%,
+  100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}

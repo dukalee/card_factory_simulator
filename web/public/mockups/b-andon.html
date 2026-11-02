@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>시안 B — 안돈 / 디지털 트윈</title>
+<style>
+:root{--bg:#eef1f5;--card:#fff;--ink:#1d2433;--mute:#7a8599;--line:#dfe4ec;--ok:#16a34a;--warn:#f59e0b;--err:#dc2626;--brand:#2563eb}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Segoe UI','Malgun Gothic',sans-serif}
+.top{display:flex;align-items:center;gap:20px;padding:14px 28px;background:#fff;border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:18px}.logo span{color:var(--brand)}
+.tower{display:flex;flex-direction:column;gap:3px;padding:5px;background:#2b3345;border-radius:8px}
+.tower i{width:22px;height:11px;border-radius:3px;background:#444c5e}
+.tower i.r{background:var(--err);box-shadow:0 0 10px var(--err);animation:b 1s infinite}
+@keyframes b{50%{opacity:.35}}
+.state{font-size:13px}.state b{display:block;font-size:16px;color:var(--err)}
+.sp{flex:1}
+.btn{border:0;border-radius:10px;padding:11px 22px;font-weight:700;font-size:14px;cursor:pointer;color:#fff}
+.go{background:var(--ok)}.stop{background:var(--err)}.ghost{background:#e8ecf3;color:var(--ink)}
+.stage{padding:22px 28px}
+.twin{background:linear-gradient(#f9fbff,#e9eef7);border:1px solid var(--line);border-radius:18px;padding:26px 22px 18px;position:relative;overflow:hidden}
+.floor{position:absolute;left:0;right:0;bottom:0;height:70px;background:repeating-linear-gradient(90deg,#d8dfea 0 2px,transparent 2px 60px)}
+.stations{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative}
+.m{background:var(--card);border-radius:16px;padding:14px;box-shadow:0 8px 20px rgba(30,50,90,.1);border:2px solid transparent;position:relative}
+.m.err{border-color:var(--err);box-shadow:0 8px 24px rgba(220,38,38,.25)}
+.m.warn{border-color:var(--warn)}
+.m .no{position:absolute;top:-12px;left:14px;background:var(--ink);color:#fff;border-radius:20px;padding:2px 12px;font-size:12px;font-weight:700}
+.m img{width:100%;height:110px;object-fit:cover;border-radius:10px}
+.row{display:flex;align-items:center;gap:12px;margin-top:10px}
+.ring{--p:60;width:62px;height:62px;border-radius:50%;background:conic-gradient(var(--c,var(--ok)) calc(var(--p)*1%),#e6eaf1 0);display:grid;place-items:center;flex-shrink:0}
+.ring::after{content:attr(data-t);width:48px;height:48px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+.m h3{margin:0;font-size:15px}.m small{color:var(--mute)}
+.pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:#e5f6ec;color:#12803a}
+.pill.w{background:#fdf0d6;color:#a5650a}.pill.e{background:#fde4e4;color:#b91c1c}
+.conv{position:relative;height:34px;margin:22px 0 0;border-radius:17px;background:#2b3345;overflow:hidden}
+.conv::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 22px,rgba(255,255,255,.12) 22px 26px);animation:mv 1s linear infinite}
+@keyframes mv{to{background-position:26px 0}}
+.cd{position:absolute;top:4px;width:20px;height:26px;border-radius:3px;background:linear-gradient(135deg,#a78bfa,#60a5fa);animation:go 9s linear infinite}
+.cd:nth-child(2){animation-delay:-3s}.cd:nth-child(3){animation-delay:-6s}
+@keyframes go{from{left:-3%}to{left:101%}}
+.bottom{display:grid;grid-template-columns:1.2fr 1fr;gap:18px;margin-top:18px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+.panel h4{margin:0 0 12px;font-size:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{background:#f4f7fb;border-radius:12px;padding:12px}.kpi small{color:var(--mute)}.kpi b{display:block;font-size:26px}
+.out{display:flex;gap:10px;overflow:auto}
+.th{flex:0 0 86px;text-align:center;font-size:12px}
+.th img{width:86px;height:120px;object-fit:cover;border-radius:8px;border:3px solid var(--ok)}
+.th.bad img{border-color:var(--err)}
+.th div{margin-top:4px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="logo">Card<span>Factory</span> · LINE 01</div>
+  <div class="tower" title="안돈"><i class="r"></i><i></i><i></i></div>
+  <div class="state">라인 상태<b>CuttingMachine 정지</b></div>
+  <span class="sp"></span>
+  <button class="btn ghost">📖 매뉴얼</button><button class="btn ghost">📄 로그</button>
+  <button class="btn go">▶ 시작</button><button class="btn stop">■ 정지</button>
+</div>
+<div class="stage">
+  <div class="twin">
+    <div class="floor"></div>
+    <div class="stations">
+      <div class="m"><span class="no">1</span><img src="../images/process/step1_cmyk.webp" alt=""><div class="row"><div class="ring" data-t="100%" style="--p:100"></div><div><h3>Ink</h3><small>잉크 프린팅</small></div></div>
+        <div class="pills"><span class="pill">이물질 정상</span><span class="pill">윤활 정상</span><span class="pill">잉크 충분</span></div></div>
+      <div class="m warn"><span class="no">2</span><img src="../images/process/step2_hologram.webp" alt=""><div class="row"><div class="ring" data-t="62%" style="--p:62;--c:var(--warn)"></div><div><h3>Holo</h3><small>홀로그램 부착 · 15s</small></div></div>
+        <div class="pills"><span class="pill">이물질 정상</span><span class="pill w">윤활 부족</span><span class="pill">시트 충분</span></div></div>
+      <div class="m"><span class="no">3</span><img src="../images/process/step3_security_marking.webp" alt=""><div class="row"><div class="ring" data-t="0%" style="--p:0"></div><div><h3>Logo</h3><small>보안 마킹</small></div></div>
+        <div class="pills"><span class="pill">이물질 정상</span><span class="pill">윤활 정상</span><span class="pill">위치 정상</span></div></div>
+      <div class="m err"><span class="no">4</span><img src="../images/process/step4_cutting.webp" alt=""><div class="row"><div class="ring" data-t="!" style="--p:100;--c:var(--err)"></div><div><h3>Cut</h3><small>커팅 · 점검 필요</small></div></div>
+        <div class="pills"><span class="pill e">이물질 감지</span><span class="pill">윤활 정상</span><span class="pill e">위치 이탈</span></div></div>
+    </div>
+    <div class="conv"><span class="cd"></span><span class="cd"></span><span class="cd"></span></div>
+  </div>
+  <div class="bottom">
+    <div class="panel"><h4>오늘의 생산 현황</h4>
+      <div class="kpis"><div class="kpi"><small>생산</small><b>12</b></div><div class="kpi"><small>합격</small><b style="color:var(--ok)">9</b></div><div class="kpi"><small>불량</small><b style="color:var(--err)">3</b></div><div class="kpi"><small>합격률</small><b>75%</b></div></div>
+      <h4 style="margin-top:16px">최근 생산 카드 (검수 대기)</h4>
+      <div class="out">
+        <div class="th"><img src="../images/result/holo_centered.webp" alt=""><div>#12</div></div>
+        <div class="th bad"><img src="../images/result/normal_offcenter_missing_C_M.webp" alt=""><div>#11 불량</div></div>
+        <div class="th"><img src="../images/result/normal_centered.webp" alt=""><div>#10</div></div>
+        <div class="th bad"><img src="../images/result/normal_centered_missing_K.webp" alt=""><div>#9 불량</div></div>
+      </div></div>
+    <div class="panel"><h4>🔧 Cut 정비 (비밀번호 인증 필요)</h4>
+      <div style="display:flex;gap:16px;align-items:center">
+        <div style="display:grid;grid-template-columns:repeat(3,52px);gap:6px">
+          <button class="btn ghost">1</button><button class="btn ghost">2</button><button class="btn ghost">3</button>
+          <button class="btn ghost">4</button><button class="btn ghost">5</button><button class="btn ghost">6</button>
+          <button class="btn ghost">7</button><button class="btn ghost">8</button><button class="btn ghost">9</button>
+          <button class="btn ghost">←</button><button class="btn ghost">0</button><button class="btn" style="background:var(--brand)">*</button></div>
+        <div style="flex:1;display:grid;gap:8px"><div style="font-size:22px;letter-spacing:.4em;text-align:center;background:#f4f7fb;border-radius:10px;padding:8px">●●●-</div>
+          <button class="btn ghost" disabled style="opacity:.5">위치 조정</button><button class="btn ghost" disabled style="opacity:.5">윤활</button><button class="btn ghost" disabled style="opacity:.5">정비</button></div>
+      </div></div>
+  </div>
+</div>
+</body>
+</html>

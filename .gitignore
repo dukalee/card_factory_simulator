@@ -1,0 +1,25 @@
+# ── 빌드 산출물 (PyInstaller 데스크톱판 / 웹) ──
+/build/
+/dist/
+*.exe
+_internal/
+/web/dist/
+
+# ── 의존성 / 캐시 ──
+node_modules/
+__pycache__/
+*.pyc
+*.tsbuildinfo
+
+# ── 데스크톱판 전용 대용량 원본 이미지 (웹은 web/public/images 의 WebP 변환본 사용) ──
+/resultImage/
+/card.png
+/logo.png
+/result/
+
+# ── 로컬 도구 설정 / 자동 테스트 산출물 ──
+.claude/
+.playwright-mcp/
+*.log
+.env
+.env.*

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>혼합 1 — 다크 HMI + 링 게이지</title>
+<link rel="stylesheet" href="hybrid.css">
+<style>
+body{background-image:linear-gradient(rgba(56,189,248,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.04) 1px,transparent 1px);background-size:32px 32px}
+header{display:flex;align-items:center;gap:16px;padding:10px 20px;background:#0d1620;border-bottom:1px solid var(--line)}
+header h1{font-size:15px;letter-spacing:.12em;color:var(--cyan)}
+.chip{padding:3px 10px;border:1px solid var(--line);border-radius:4px;font-size:12px;color:var(--mute)}.chip b{color:var(--ok)}
+.wrap{display:grid;grid-template-columns:1fr 310px;gap:14px;padding:14px 20px}
+.stations{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:18px 14px 10px}
+.ctl{display:flex;gap:10px;align-items:center;padding:14px}
+</style></head><body>
+<header><h1>CARD FACTORY · LINE-01</h1><div class="tower h"><i class="r"></i><i></i><i></i></div><span class="chip">MODE <b>AUTO</b></span><span class="chip">알람 <b style="color:var(--err)">2</b></span><span class="sp"></span><span class="chip mono clk">--:--:--</span></header>
+<div class="wrap"><main>
+  <div class="box"><h2><span>공정 흐름도</span><span class="mono">CYCLE 20.0s</span></h2>
+    <div class="stations" id="st"></div>
+    <div style="padding:0 14px 14px" id="belt"></div>
+    <div style="padding:0 14px" id="kv"></div>
+    <div class="ctl"><button class="btn go">▶ START</button><button class="btn stop">■ STOP</button><span class="sp"></span><button class="btn">🔧 MAINT</button><button class="btn es">E-STOP</button></div></div>
+  <div class="box" style="margin-top:14px"><h2><span>Event Log</span><span>log.txt</span></h2><div id="log"></div></div>
+</main><aside>
+  <div class="box"><h2><span>Alarms</span><span style="color:var(--err)">● 2 ACTIVE</span></h2><div id="al"></div></div>
+  <div class="box" style="margin-top:14px"><h2><span>Maintenance Access</span><span>CUT</span></h2><div class="pad" id="kp"></div></div>
+</aside></div>
+<script src="hybrid.js"></script>
+<script>fill('st',S.map((s,i)=>stRing(s,i)).join(''));fill('belt',belt());fill('kv',kv());fill('log',log());fill('al',alarms());fill('kp',keypad());</script>
+</body></html>

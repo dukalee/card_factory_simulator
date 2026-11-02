@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>시안 C — MES 대시보드</title>
+<style>
+:root{--bg:#161a22;--side:#10131a;--card:#1e2430;--line:#2c3443;--txt:#e4e8ef;--mute:#8791a5;--ok:#34d399;--warn:#fbbf24;--err:#f87171;--acc:#818cf8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:'Segoe UI','Malgun Gothic',sans-serif;display:grid;grid-template-columns:72px 1fr 330px;min-height:100vh}
+nav{background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 0}
+nav i{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-style:normal;font-size:20px;color:var(--mute)}
+nav i.on{background:#2a2f55;color:#fff}
+main{padding:20px 24px;min-width:0}
+.hd{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.hd h1{font-size:20px;margin:0}.hd small{color:var(--mute)}
+.sp{flex:1}
+.btn{border:0;border-radius:8px;padding:9px 18px;font-weight:700;color:#fff;cursor:pointer;background:#2c3443}
+.go{background:#059669}.stop{background:#dc2626}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.k{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.k small{color:var(--mute);font-size:12px}.k b{display:block;font-size:30px;margin:2px 0}
+.k span{font-size:12px}.up{color:var(--ok)}.dn{color:var(--err)}
+.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:12px;margin-top:12px}
+.c{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.c h2{margin:0 0 12px;font-size:14px;display:flex;justify-content:space-between}
+.c h2 small{color:var(--mute);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{color:var(--mute);font-weight:500;text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:10px 8px;border-bottom:1px solid #262d3a;vertical-align:middle}
+.th{display:flex;align-items:center;gap:10px}
+.th img{width:36px;height:36px;border-radius:8px;object-fit:cover}
+.st{padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.st.ok{background:rgba(52,211,153,.15);color:var(--ok)}.st.w{background:rgba(251,191,36,.15);color:var(--warn)}.st.e{background:rgba(248,113,113,.15);color:var(--err)}
+.pb{height:6px;background:#2c3443;border-radius:3px;width:100px}.pb i{display:block;height:100%;border-radius:3px;background:var(--acc)}
+.chart{height:150px}
+svg text{fill:var(--mute);font-size:10px}
+.flow{display:flex;align-items:center;gap:0;margin-top:6px}
+.node{flex:1;text-align:center;font-size:12px}
+.node i{display:block;width:34px;height:34px;border-radius:50%;margin:0 auto 4px;display:grid;place-items:center;font-style:normal;font-weight:800;background:var(--ok);color:#06251a}
+.node.w i{background:var(--warn);color:#2a1d00}.node.e i{background:var(--err);color:#2c0707}
+.edge{flex:.6;height:3px;background:repeating-linear-gradient(90deg,var(--acc) 0 8px,transparent 8px 14px);animation:mv .8s linear infinite;margin-bottom:18px}
+@keyframes mv{to{background-position:14px 0}}
+aside{background:var(--side);border-left:1px solid var(--line);padding:20px 18px}
+aside h3{margin:0 0 4px;font-size:15px}aside small{color:var(--mute)}
+.alert{margin:14px 0;padding:12px;border:1px solid rgba(248,113,113,.4);background:rgba(248,113,113,.08);border-radius:12px;font-size:13px}
+.alert b{color:var(--err)}
+.pin{font-size:26px;letter-spacing:.5em;text-align:center;padding:10px;background:var(--card);border:1px solid var(--line);border-radius:10px;margin:10px 0}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pad .btn{padding:12px}
+.acts{display:grid;gap:8px;margin-top:14px}
+.acts .btn{background:#252c3b;color:var(--mute);text-align:left;display:flex;justify-content:space-between}
+.tl{margin-top:18px;font-size:12px;color:var(--mute);line-height:1.9}
+.tl div::before{content:"● ";color:var(--acc)}.tl .e::before{color:var(--err)}
+</style>
+</head>
+<body>
+<nav><i class="on">▦</i><i>⚙</i><i>🖼</i><i>📜</i><i>👤</i></nav>
+<main>
+  <div class="hd"><div><h1>Line 01 · 카드 생산 현황</h1><small>실시간 · 2026-11-02 21:05</small></div><span class="sp"></span>
+    <button class="btn go">▶ 시작</button><button class="btn stop">■ 정지</button></div>
+  <div class="kpis">
+    <div class="k"><small>OEE 종합설비효율</small><b>68%</b><span class="dn">▼ 7% vs 어제</span></div>
+    <div class="k"><small>생산 수량</small><b>12</b><span class="up">▲ 목표 20개</span></div>
+    <div class="k"><small>불량률</small><b style="color:var(--err)">25%</b><span class="dn">▲ 3건</span></div>
+    <div class="k"><small>평균 사이클</small><b>24.3s</b><span class="dn">목표 20s</span></div>
+  </div>
+  <div class="grid">
+    <div class="c"><h2>설비 상태 <small>4 stations</small></h2>
+      <div class="flow">
+        <div class="node"><i>1</i>Ink</div><div class="edge"></div>
+        <div class="node w"><i>2</i>Holo</div><div class="edge"></div>
+        <div class="node"><i>3</i>Logo</div><div class="edge"></div>
+        <div class="node e"><i>4</i>Cut</div></div>
+      <table><thead><tr><th>설비</th><th>상태</th><th>진행</th><th>이물질</th><th>윤활</th><th>자재/위치</th></tr></thead><tbody>
+        <tr><td><div class="th"><img src="../images/process/step1_cmyk.webp" alt="">Ink</div></td><td><span class="st ok">가동</span></td><td><div class="pb"><i style="width:100%"></i></div></td><td>정상</td><td>정상</td><td>잉크 정상</td></tr>
+        <tr><td><div class="th"><img src="../images/process/step2_hologram.webp" alt="">Holo</div></td><td><span class="st w">주의</span></td><td><div class="pb"><i style="width:62%"></i></div></td><td>정상</td><td style="color:var(--warn)">부족</td><td>시트 정상</td></tr>
+        <tr><td><div class="th"><img src="../images/process/step3_security_marking.webp" alt="">Logo</div></td><td><span class="st ok">대기</span></td><td><div class="pb"><i style="width:0"></i></div></td><td>정상</td><td>정상</td><td>위치 정상</td></tr>
+        <tr><td><div class="th"><img src="../images/process/step4_cutting.webp" alt="">Cut</div></td><td><span class="st e">정지</span></td><td><div class="pb"><i style="width:0"></i></div></td><td style="color:var(--err)">감지</td><td>정상</td><td style="color:var(--err)">이탈</td></tr>
+      </tbody></table></div>
+    <div class="c"><h2>사이클 타임 추이 <small>최근 12개</small></h2>
+      <svg class="chart" viewBox="0 0 300 150" width="100%"><g stroke="#2c3443"><line x1="24" x2="296" y1="20" y2="20"/><line x1="24" x2="296" y1="70" y2="70"/><line x1="24" x2="296" y1="120" y2="120"/></g>
+        <text x="0" y="23">40s</text><text x="0" y="73">30s</text><text x="0" y="123">20s</text>
+        <line x1="24" x2="296" y1="120" y2="120" stroke="#34d399" stroke-dasharray="4"/>
+        <polyline fill="none" stroke="#818cf8" stroke-width="2.5" points="30,118 52,117 74,119 96,118 118,90 140,88 162,60 184,64 206,118 228,92 250,60 272,50"/>
+        <circle cx="272" cy="50" r="4" fill="#f87171"/></svg>
+      <h2 style="margin-top:8px">최근 카드</h2>
+      <div style="display:flex;gap:8px"><img src="../images/result/holo_centered.webp" style="height:92px;border-radius:6px" alt=""><img src="../images/result/normal_offcenter_missing_C_M.webp" style="height:92px;border-radius:6px;outline:2px solid var(--err)" alt=""><img src="../images/result/normal_centered.webp" style="height:92px;border-radius:6px" alt=""></div>
+    </div>
+  </div>
+</main>
+<aside>
+  <h3>Cut 정비 패널</h3><small>CuttingMachine · 비밀번호 인증 필요</small>
+  <div class="alert"><b>⚠ 알람 2건</b><br>이물질 감지 · 커팅 위치 이탈<br><small>21:04:32 · 정지 후 정비하세요</small></div>
+  <div class="pin">●●●–</div>
+  <div class="pad"><button class="btn">1</button><button class="btn">2</button><button class="btn">3</button><button class="btn">4</button><button class="btn">5</button><button class="btn">6</button><button class="btn">7</button><button class="btn">8</button><button class="btn">9</button><button class="btn">←</button><button class="btn">0</button><button class="btn" style="background:#4f46e5">인증</button></div>
+  <div class="acts"><button class="btn">위치 조정 <span>🔒</span></button><button class="btn">윤활 <span>🔒</span></button><button class="btn">정비 <span>🔒</span></button></div>
+  <div class="tl"><div class="e">21:04:32 ERROR Cut</div><div>21:04:40 STOP</div><div>21:04:17 PROCESS Holo 15.0s</div><div>21:04:12 PROCESS Ink 5.0s</div></div>
+</aside>
+</body>
+</html>

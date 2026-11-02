@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>혼합 4 — 좌측 컨트롤 레일</title>
+<link rel="stylesheet" href="hybrid.css">
+<style>
+body{display:grid;grid-template-columns:150px 1fr;grid-template-rows:1fr 44px;height:100vh;background:#0a1019}
+.rail{grid-row:1/3;background:#0d1620;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:14px;padding:16px 12px}
+.rail .tower{flex-direction:column}.rail .tower i{width:34px;height:18px}
+.rail .btn{width:100%;padding:12px 0}
+.rail .es{width:78px;height:78px;margin-top:auto;font-size:13px}
+.rl{text-align:center;font-size:11px;color:var(--mute)}.rl b{display:block;font-size:24px;color:var(--txt);font-family:Consolas,monospace}
+main{padding:16px 18px;overflow:auto;display:grid;grid-template-columns:1fr 300px;gap:16px;align-content:start}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid .st img{height:128px}
+.grid .st .ring{width:70px;height:70px}.grid .st .ring::after{width:54px;height:54px;font-size:15px}
+.ticker{grid-column:2;background:#1a0f12;border-top:1px solid #5a1a1d;display:flex;align-items:center;gap:12px;padding:0 18px;color:#ffb4b5;font-size:13px;overflow:hidden;white-space:nowrap}
+.ticker b{background:var(--err);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px}
+.ticker span{display:inline-block;animation:tk 18s linear infinite}
+@keyframes tk{from{transform:translateX(30%)}to{transform:translateX(-100%)}}
+</style></head><body>
+<div class="rail">
+  <div class="tower"><i class="r"></i><i></i><i></i></div>
+  <div class="rl">LINE-01<b class="clk">--:--:--</b></div>
+  <button class="btn go">▶ START</button><button class="btn stop">■ STOP</button>
+  <div class="rl">생산<b>12</b></div><div class="rl">합격<b style="color:var(--ok)">9</b></div><div class="rl">불량<b style="color:var(--err)">3</b></div>
+  <button class="btn es">E-STOP</button>
+</div>
+<main>
+  <div><div class="grid" id="st"></div><div style="margin-top:14px" id="belt"></div>
+    <div class="box" style="margin-top:14px"><h2><span>최근 카드</span><span>검수 대기</span></h2><div class="pad" id="th"></div></div></div>
+  <div><div class="box"><h2><span>Maintenance · CUT</span><span>🔒</span></h2><div class="pad" id="kp"></div></div>
+    <div class="box" style="margin-top:14px"><h2><span>Event Log</span><span>log.txt</span></h2><div id="log"></div></div></div>
+</main>
+<div class="ticker"><b>ALARM</b><span>Cut · 이물질 감지 (21:04:32) &nbsp;●&nbsp; Cut · 커팅 위치 이탈 (21:04:32) &nbsp;●&nbsp; Holo · 윤활 부족 — 공정 시간 15s</span></div>
+<script src="hybrid.js"></script>
+<script>fill('st',S.map((s,i)=>stRing(s,i)).join(''));fill('belt',belt());fill('th',thumbs());fill('kp',keypad());fill('log',log());</script>
+</body></html>

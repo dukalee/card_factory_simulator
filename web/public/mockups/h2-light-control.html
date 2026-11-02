@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>혼합 2 — 라이트 관제실</title>
+<link rel="stylesheet" href="hybrid.css">
+<style>
+.top{display:flex;align-items:center;gap:18px;padding:12px 24px;background:var(--panel);border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:18px}.logo span{color:var(--brand)}
+.state{font-size:12px;color:var(--mute)}.state b{display:block;font-size:15px;color:var(--err)}
+.wrap{display:grid;grid-template-columns:1fr 300px;gap:16px;padding:18px 24px}
+.twin{background:linear-gradient(#f9fbff,#e9eef7);border:1px solid var(--line);border-radius:18px;padding:22px 18px 16px}
+.stations{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
+.light .st{box-shadow:0 8px 20px rgba(30,50,90,.1);border:2px solid transparent}
+.light .st.warn{border-color:var(--warn)}.light .st.err{border-color:var(--err)}
+.btm{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-top:16px}
+</style></head><body class="light">
+<div class="top"><div class="logo">Card<span>Factory</span> · LINE 01</div><div class="tower"><i class="r"></i><i></i><i></i></div><div class="state">라인 상태<b>Cut 정지 · 알람 2</b></div><span class="sp"></span>
+<button class="btn">📖 매뉴얼</button><button class="btn">📄 로그</button><button class="btn go">▶ 시작</button><button class="btn stop">■ 정지</button><button class="btn es">E-STOP</button></div>
+<div class="wrap"><main>
+  <div class="twin"><div class="stations" id="st"></div><div id="belt"></div></div>
+  <div class="btm"><div class="box"><h2><span>오늘의 생산</span><span>검수 대기</span></h2><div class="pad"><div id="kv"></div><div style="height:14px"></div><div id="th"></div></div></div>
+    <div class="box"><h2><span>Event Log</span><span>log.txt</span></h2><div id="log"></div></div></div>
+</main><aside>
+  <div class="box"><h2><span>알람</span><span style="color:var(--err)">● 2 활성</span></h2><div id="al"></div></div>
+  <div class="box" style="margin-top:16px"><h2><span>Cut 정비</span><span>🔒 PW 필요</span></h2><div class="pad" id="kp"></div></div>
+</aside></div>
+<script src="hybrid.js"></script>
+<script>fill('st',S.map((s,i)=>stRing(s,i,110)).join(''));fill('belt',belt());fill('kv',kv());fill('th',thumbs());fill('log',log());fill('al',alarms());fill('kp',keypad());</script>
+</body></html>

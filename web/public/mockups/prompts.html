@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>카드 원화 프롬프트 시트</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#161a24;color:#dfe6f2;font-family:'Segoe UI','Malgun Gothic',sans-serif;padding:28px;max-width:1100px;margin:0 auto}
+h1{margin:0 0 6px;font-size:22px}h2{font-size:15px;margin:0 0 10px;color:#9fb4d4}
+p,li{line-height:1.65;font-size:14px;color:#b8c4d8}
+code{background:#242b3d;padding:1px 6px;border-radius:4px;color:#ffd98a;font-size:13px}
+.box{background:#1f2535;border:1px solid #2f3850;border-radius:12px;padding:16px 18px;margin:16px 0}
+.spec{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.spec div{background:#161a24;border:1px solid #2f3850;border-radius:10px;padding:10px 12px;font-size:13px}
+.spec b{display:block;color:#fff;font-size:15px;margin-bottom:2px}
+.card{display:grid;grid-template-columns:150px 1fr;gap:16px}
+.thumb{width:150px;height:105px;border-radius:8px;overflow:hidden;background:#000}.thumb svg{width:100%;height:100%;display:block}
+.tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700;margin-left:8px;color:#fff}
+.lbl{font-size:12px;color:#8ea0bd;margin:10px 0 4px;display:flex;justify-content:space-between;align-items:center}
+textarea{width:100%;min-height:104px;background:#12151e;color:#e8eefc;border:1px solid #2f3850;border-radius:8px;padding:10px;font:13px/1.55 Consolas,'Malgun Gothic',monospace;resize:vertical}
+button{border:0;border-radius:6px;padding:5px 12px;background:#3b82f6;color:#fff;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+button.ok{background:#16a34a}
+ol{margin:6px 0 0;padding-left:20px}
+.wrap-btn{margin-top:10px}
+</style>
+</head>
+<body>
+<h1>카드 원화 프롬프트 시트</h1>
+<p>이미지 생성 AI(Midjourney · ChatGPT/DALL·E · Gemini · Stable Diffusion 등)에 복사해서 쓰는 프롬프트입니다. <b>원화만</b> 만들고, 프레임·글자·홀로·변형은 코드가 처리합니다.</p>
+
+<div class="box"><h2>제작 규격</h2>
+ <div class="spec">
+  <div><b>비율 7:5 (가로형)</b>카드 원화 창이 584×420 (≈1.39:1). Midjourney는 <code>--ar 7:5</code>, 그 외는 3:2로 뽑아 좌우를 살짝 잘라도 됩니다.</div>
+  <div><b>해상도 1168×840 이상</b>2배 해상도로 두면 크게 보기·인쇄에도 선명합니다.</div>
+  <div><b>글자 · 테두리 없음</b>이름, 숫자, 로고, 카드 틀은 코드가 얹습니다.</div>
+  <div><b>저장 경로</b><code>web/public/images/cards/{키}.webp</code> (예: <code>fire.webp</code>). 아니면 카드 시안 페이지에 끌어다 놓기.</div>
+ </div>
+ <div class="wrap-btn"><b>일관성 팁</b>
+  <ol>
+   <li>첫 카드(<code>fire</code>)를 가장 공들여 만들고, 그 결과를 <b>스타일 참조 이미지</b>로 나머지 5장에 첨부하세요 (Midjourney <code>--sref</code> / 이미지 첨부 / IP-Adapter).</li>
+   <li>현재 별빛드래곤 카드(<code>web/public/images/result/normal_centered.webp</code>)를 첫 스타일 참조로 써도 좋습니다.</li>
+   <li>캐릭터는 가운데, 머리 위·발 아래 여백을 남기도록 요청하세요. 카드 틀이 위아래를 살짝 가립니다.</li>
+   <li>카드당 4장쯤 뽑아 가장 마음에 드는 것을 고르세요.</li>
+   <li>실제 포켓몬 이름·캐릭터·상표는 프롬프트에 넣지 마세요. 사용하는 도구의 상업적 이용 약관도 확인하세요.</li>
+  </ol></div>
+</div>
+
+<div class="box"><h2>공통 앞부분 (모든 카드에 동일 적용)</h2>
+ <div class="lbl"><span>STYLE PREFIX</span><button data-copy="style">복사</button></div>
+ <textarea id="style" readonly></textarea>
+ <div class="lbl"><span>NEGATIVE / 제외 요소 (지원하는 도구에서)</span><button data-copy="neg">복사</button></div>
+ <textarea id="neg" readonly style="min-height:60px"></textarea>
+</div>
+
+<div id="list"></div>
+
+<script>
+const STYLE = 'Original creature illustration for a collectible trading card game, soft painterly digital art, vibrant saturated colors, clean refined linework, glossy highlights, cute chibi proportions with big sparkling eyes, single full-body character centered with breathing room above and below, dynamic pose, rich fantasy background with depth and atmospheric lighting, highly detailed, wide 7:5 landscape composition, no text, no logo, no border, no frame';
+const NEG = 'text, letters, watermark, logo, card frame, border, UI, multiple characters, cropped body, extra limbs, deformed, blurry, low quality, photo, realistic, existing copyrighted characters';
+const C = [
+ {k:'fire', n:'불씨여우', t:'불꽃', c:'#e0522e', d:'a small orange fox cub spirit with a blazing flame-shaped tail and a tuft of fire on its head, cream muzzle and belly, big warm eyes, ember sparks floating around, standing on dark volcanic rocks, glowing magma rivers and a dusk sky of crimson and gold'},
+ {k:'water', n:'방울고래', t:'물', c:'#2b7bc8', d:'a round baby whale creature with sky-blue skin and a cream belly, spraying a small water spout that forms a tiny rainbow, floating in a sunlit coral reef, god rays piercing the water, drifting bubbles, pink coral and tiny fish'},
+ {k:'grass', n:'잎새거북', t:'풀', c:'#3f9d4d', d:'a gentle turtle creature with a mossy green hexagon-patterned shell and a sprouting plant with a pink flower bud growing on top, soft round face, sitting in a sunlit meadow with tall trees behind, fluttering pollen and drifting petals'},
+ {k:'elec', n:'찌릿냥', t:'전기', c:'#d9a800', d:'a mischievous electric cat creature with light blue fur and a white fluffy chest, a yellow lightning-bolt mark on its forehead, round yellow spark-like cheeks, a zig-zag lightning-shaped tail, crackling electric arcs around it, stormy purple sky with golden lightning bolts'},
+ {k:'psy', n:'달빛토끼', t:'에스퍼', c:'#a655b8', d:'a mystical lavender-white moon rabbit with long elegant ears and a golden crescent mark on its forehead, floating among glittering sparkles in front of a giant glowing full moon, dreamy night sky with pink clouds and stars'},
+ {k:'dark', n:'밤그림부엉', t:'악', c:'#4a3b8a', d:'a wise owl creature with deep purple plumage and a lighter belly, huge glowing yellow eyes, feathered ear tufts, wings slightly spread, perched on a gnarled branch in a moonlit forest at night, giant pale moon behind it, fireflies and drifting mist'},
+];
+const $ = (id) => document.getElementById(id);
+$('style').value = STYLE; $('neg').value = NEG;
+$('list').innerHTML = C.map((c, i) => `
+<div class="box card"><div><div class="thumb" id="th-${c.k}"></div></div><div>
+ <h2>${i + 1}. ${c.n}<span class="tag" style="background:${c.c}">${c.t}</span><span class="tag" style="background:#334">${c.k}.webp</span></h2>
+ <div class="lbl"><span>이 카드 전용 설명 (STYLE PREFIX 뒤에 붙임)</span><button data-copy="d-${c.k}">복사</button></div>
+ <textarea id="d-${c.k}" readonly style="min-height:78px">${c.d}</textarea>
+ <div class="lbl"><span>한 번에 붙여넣기용 (공통 + 전용)</span><button data-copy="a-${c.k}">복사</button></div>
+ <textarea id="a-${c.k}" readonly>${STYLE}. ${c.d}</textarea>
+</div></div>`).join('');
+document.addEventListener('click', (e) => {
+  const id = e.target.dataset && e.target.dataset.copy; if (!id) return;
+  const ta = $(id); ta.select(); navigator.clipboard.writeText(ta.value).then(() => { e.target.textContent = '복사됨 ✓'; e.target.classList.add('ok'); setTimeout(() => { e.target.textContent = '복사'; e.target.classList.remove('ok'); }, 1400); });
+});
+/* 참고용 썸네일: 현재 SVG 시안의 원화를 그대로 재사용 */
+fetch('cards.html').then(r => r.text()).then(src => {
+  C.forEach(c => { const m = src.match(new RegExp('ART\\.' + c.k + ' = `([\\s\\S]*?)`;')); if (m) $('th-' + c.k).innerHTML = '<svg viewBox="0 0 584 420" preserveAspectRatio="xMidYMid slice">' + m[1] + '</svg>'; });
+});
+</script>
+</body>
+</html>

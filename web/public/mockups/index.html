@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UI 시안 목록</title>
+<style>body{font-family:'Segoe UI','Malgun Gothic',sans-serif;background:#eef1f5;margin:0;padding:40px}h1{margin-top:0}h2{margin:28px 0 12px;font-size:15px;color:#667}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+a{display:block;background:#fff;border-radius:14px;padding:22px;text-decoration:none;color:#1d2433;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+a:hover{transform:translateY(-2px)}b{font-size:18px}p{color:#667;margin:8px 0 0}</style></head><body>
+<h1>Card Factory Simulator — UI 시안</h1>
+<h2>1차 시안</h2><div class="g">
+<a href="a-scada.html"><b>A. SCADA 관제실</b><p>어두운 HMI 톤. 공정 흐름도 + 컨베이어, 알람 패널, E-STOP</p></a>
+<a href="b-andon.html"><b>B. 안돈 / 디지털 트윈</b><p>밝은 톤. 안돈 타워, 링 게이지 설비 카드, 컨베이어 위 카드</p></a>
+<a href="c-mes.html"><b>C. MES 대시보드</b><p>KPI 중심. OEE/불량률, 설비 테이블, 추이 차트</p></a></div>
+<h2>A + B 혼합 시안</h2><div class="g">
+<a href="h1-dark-ring.html"><b>혼합 1. 다크 HMI + 링 게이지</b><p>A의 구조에 B의 안돈 타워·링 게이지·상태 칩을 이식</p></a>
+<a href="h2-light-control.html"><b>혼합 2. 라이트 관제실</b><p>B의 밝은 톤에 A의 우측 알람/정비 패널과 이벤트 로그</p></a>
+<a href="h3-two-tone.html"><b>혼합 3. 투톤</b><p>상단 다크 공정 라인 + 하단 라이트 정보 패널 3분할</p></a>
+<a href="h4-left-rail.html"><b>혼합 4. 좌측 컨트롤 레일</b><p>안돈·START/STOP·E-STOP을 좌측 레일에 고정, 하단 알람 티커</p></a>
+<a href="h5-floor-glass.html"><b>혼합 5. 공장 바닥 뷰 + 글래스</b><p>원근감 있는 바닥 위 설비 + 토스트 알람 + 정비 서랍</p></a></div>
+<h2>카드 디자인 (A방향: 일러스트 원화 + 코드 프레임)</h2><div class="g">
+<a href="cards.html"><b>카드 시안 6종</b><p>타입별 프레임 + SVG 임시 원화. 생성한 원화를 끌어다 놓으면 교체 미리보기, 홀로/커팅 이탈 토글</p></a>
+<a href="prompts.html"><b>원화 프롬프트 시트</b><p>이미지 생성 AI용 공통 스타일 + 카드별 프롬프트, 제작 규격, 복사 버튼</p></a></div>
+</body></html>
