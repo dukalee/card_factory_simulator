@@ -21,6 +21,8 @@ export interface LogEntry {
   time: number;
   sev: Severity;
   text: string;
+  /** 검수 판정 항목의 표시 종류: pass = 올바른 판정(초록), wrong = 잘못된 판정(빨강). 없으면 sev 로 표시 */
+  kind?: 'pass' | 'wrong';
 }
 
 /** 이 시간(초)보다 오래 걸린 공정은 '공정 지연' 경고로 표시 */
@@ -41,9 +43,9 @@ export class Logger {
     this.actionCount = 0;
   }
 
-  private write(line: string, text: string, sev: Severity = 'info') {
+  private write(line: string, text: string, sev: Severity = 'info', kind?: 'pass' | 'wrong') {
     this.lines.push(line);
-    this.entries.push({ time: Date.now(), sev, text });
+    this.entries.push({ time: Date.now(), sev, text, kind });
   }
 
   writeProcess(machine: string, start: number, end: number) {
@@ -83,12 +85,13 @@ export class Logger {
     this.actionCount++;
     this.write(`FIX: ${machine} | ${formatTime()} | ${button}`, `${machine} ${button}`);
   }
-  writeJudge(card: string, verdict: 'pass' | 'fail', penalty: boolean) {
+  writeJudge(card: string, verdict: 'pass' | 'fail', penalty: boolean, correct: boolean) {
     const tag = verdict === 'pass' ? 'PASS' : 'FAIL';
     this.write(
       `JUDGE: ${card} | ${tag}${penalty ? ' | PENALTY +10' : ''} | ${formatTime()}`,
       penalty ? `${card} 오합격 (+10점)` : `${card} ${verdict === 'pass' ? '합격' : '불량'} 처리`,
-      penalty ? 'warn' : 'info',
+      correct ? 'info' : 'warn',
+      correct ? 'pass' : 'wrong',
     );
   }
   writeGoal(score: number) {

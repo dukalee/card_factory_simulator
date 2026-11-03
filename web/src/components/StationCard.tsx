@@ -2,10 +2,10 @@ import { MACHINE_ORDER, type MachineName } from '../sim/machines';
 import type { Session } from '../sim/session';
 
 const INFO: Record<MachineName, { key: string; ko: string; image: string }> = {
-  InkMachine: { key: 'INK', ko: '잉크 프린팅', image: 'step1_cmyk' },
-  HoloMachine: { key: 'HOLO', ko: '홀로그램 부착', image: 'step2_hologram' },
-  LogoMachine: { key: 'LOGO', ko: '보안 마킹', image: 'step3_security_marking' },
-  CuttingMachine: { key: 'CUT', ko: '커팅', image: 'step4_cutting' },
+  InkMachine: { key: 'INK MACHINE', ko: '잉크 프린팅', image: 'step1_cmyk' },
+  HoloMachine: { key: 'HOLO MACHINE', ko: '홀로그램 부착', image: 'step2_hologram' },
+  LogoMachine: { key: 'LOGO MACHINE', ko: '보안 마킹', image: 'step3_security_marking' },
+  CuttingMachine: { key: 'CUTTING MACHINE', ko: '커팅', image: 'step4_cutting' },
 };
 
 type StationState = 'stalled' | 'working' | 'done' | 'idle';

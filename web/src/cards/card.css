@@ -27,6 +27,7 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   font-family: 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', 'Segoe UI', sans-serif;
   color: #1b1b24;
+  text-rendering: geometricPrecision;
 }
 .cf-sheet {
   position: absolute;
@@ -59,7 +60,9 @@
 .cf-chip {
   position: absolute;
   left: 14px;
-  top: 22px;
+  top: 42px; /* 헤더 안쪽 높이(84)의 중앙 */
+  transform: translateY(-50%);
+  line-height: 1.2;
   padding: 5px 16px;
   border-radius: 20px;
   background: #fff;
@@ -70,7 +73,11 @@
 .cf-nm {
   position: absolute;
   left: 112px;
-  top: 12px;
+  top: 0;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  line-height: 1;
   font-size: 38px;
   font-weight: 900;
   letter-spacing: -1px;
@@ -79,7 +86,14 @@
 .cf-hp {
   position: absolute;
   right: 78px;
-  top: 26px;
+  top: 0;
+  height: 84px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  align-content: center;
+  white-space: nowrap;
+  line-height: 1;
   font-size: 20px;
   font-weight: 800;
 }
@@ -91,7 +105,7 @@
 .cf-ticon {
   position: absolute;
   right: 12px;
-  top: 10px;
+  top: 13px;
   width: 58px;
   height: 58px;
   border-radius: 50%;
@@ -243,6 +257,7 @@
   font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
   font-weight: 900;
   font-size: 21px;
+  line-height: 30px;
   color: #ffcb05;
   -webkit-text-stroke: 4px #2a5ea8;
   paint-order: stroke fill;
@@ -261,6 +276,7 @@
   left: 0;
   top: 32px;
   font-size: 12px;
+  line-height: 16px;
   color: #fff;
   font-weight: 700;
 }

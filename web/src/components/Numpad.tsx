@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '←', '0', '*'];
 
@@ -7,10 +7,12 @@ interface Props {
   /** true 이면 물리 키보드(숫자 / Backspace / Enter)로도 입력 가능 */
   keyboard: boolean;
   onConfirm: (digits: string) => void;
+  /** 입력창 바로 위에 표시할 안내 문구 (없으면 자리만 비워 둠) */
+  note?: ReactNode;
 }
 
 /** 4자리 비밀번호 숫자패드. [*] (또는 Enter) 를 누르면 onConfirm(digits) 호출 */
-export function Numpad({ disabled, keyboard, onConfirm }: Props) {
+export function Numpad({ disabled, keyboard, onConfirm, note }: Props) {
   const [digits, setDigits] = useState('');
 
   const press = (key: string) => {
@@ -52,6 +54,7 @@ export function Numpad({ disabled, keyboard, onConfirm }: Props) {
 
   return (
     <div className="numpad">
+      <p className="numpad-note">{note}</p>
       <div className="pin">입력: {display}</div>
       <div className="keys">
         {KEYS.map((k) => (

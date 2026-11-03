@@ -1,0 +1,28 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>타이틀 3. 카드 쇼케이스</title><link rel="stylesheet" href="prod.css"><style>@font-face{font-family:'Orbitron';font-weight:900;src:url('/node_modules/@fontsource/orbitron/files/orbitron-latin-900-normal.woff2') format('woff2')}
+@font-face{font-family:'Orbitron';font-weight:700;src:url('/node_modules/@fontsource/orbitron/files/orbitron-latin-700-normal.woff2') format('woff2')}
+*{box-sizing:border-box}html,body{margin:0;height:100%}body{font-family:'Segoe UI','Malgun Gothic',sans-serif;overflow:hidden}
+.back{position:fixed;left:14px;top:12px;z-index:50;font-size:12px;color:#fff;text-decoration:none;background:rgba(0,0,0,.45);padding:5px 12px;border-radius:999px}
+.ft{position:fixed;left:0;right:0;bottom:12px;text-align:center;font-size:12px;letter-spacing:.05em;z-index:5}
+
+body{background:radial-gradient(900px 600px at 50% 40%,#2a1b5e,#0b0a1e 70%);color:#ece6ff}
+.fan{position:absolute;left:50%;top:50%;width:0;height:0}
+.fan .w{position:absolute;left:0;top:0;transform-origin:50% 120%;transition:transform .5s}
+.fan .w .mc{box-shadow:0 14px 40px rgba(0,0,0,.6)}
+.veil{position:absolute;inset:0;background:radial-gradient(600px 300px at 50% 55%,rgba(11,10,30,.92),rgba(11,10,30,.35) 70%,transparent)}
+.c{position:relative;z-index:3;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:14px;text-align:center;padding:24px 24px 90px}
+h1{margin:0;font:900 clamp(30px,4.6vw,64px)/1.08 Orbitron,sans-serif;letter-spacing:.08em;background:linear-gradient(100deg,#fde68a,#f9a8d4 30%,#93c5fd 55%,#a7f3d0 80%,#fde68a);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:holo 5s linear infinite;filter:drop-shadow(0 4px 18px rgba(0,0,0,.7))}
+@keyframes holo{to{background-position:200% 0}}
+.sub{color:#cfc6f5;font-size:17px;line-height:1.7;max-width:560px;text-shadow:0 2px 10px #000}
+.go{border:0;background:linear-gradient(135deg,#f59e0b,#ec4899);color:#fff;font-weight:900;font-size:20px;padding:16px 48px;border-radius:999px;cursor:pointer;box-shadow:0 8px 30px rgba(236,72,153,.5)}
+.go:hover{filter:brightness(1.1)}
+.lk{color:#c4b5fd;font-size:14px}
+.ft{color:#7b70b0}
+body{padding:0}</style></head><body>
+<a class="back" href="index.html">← 시안 목록</a>
+<div class="fan" id="fan"></div><div class="veil"></div>
+<div class="c"><h1>CARD FACTORY<br>SIMULATOR</h1>
+<div class="sub">카드가 만들어지는 4단계 공정을 감시하고,<br>불량 카드를 가려내 정상 카드 10장을 가장 빨리 모으세요.</div>
+<button class="go">▶ 시뮬레이터 시작</button><a class="lk" href="#">카드 갤러리 보기</a></div>
+<div class="ft">© 2026 aishift. All rights reserved.</div>
+<script src="prod.js"></script><script>const names=['fire','water','grass','elec','psy','dark'];let h='';names.forEach((k,i)=>{const a=(i-2.5)*15;const c={key:k,holo:true,bad:false};h+=`<div class="w" style="transform:translate(-110px,-380px) rotate(${a}deg)">${card(c,220)}</div>`});
+document.getElementById('fan').innerHTML=h;</script></body></html>

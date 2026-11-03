@@ -5,7 +5,7 @@ import '@fontsource/noto-sans-kr/900.css';
 import './card.css';
 import { ART_SVG } from './art';
 import { CARD_DEFS, ENERGY } from './defs';
-import type { CardKey, CardSpec, EnergyType, InkChannel } from './types';
+import type { CardKey, CardSpec, EnergyType } from './types';
 
 const DESIGN_W = 640;
 const DESIGN_H = 897;
@@ -46,30 +46,12 @@ function uniqueIds(svg: string, prefix: string): string {
 }
 
 /* ── 잉크 누락 필터 ───────────────────────────────────────────────────
- * C/M/Y 가 빠지면 해당 보색 채널(R/G/B)이 흰색으로 날아가고, K 가 빠지면 검정이 뜬다.
- * C·M·Y 가 모두 빠지면 K 만 남은 흑백풍이 된다. */
-function InkFilter({ id, missing }: { id: string; missing: InkChannel[] }) {
-  const has = (c: InkChannel) => missing.includes(c);
-  const noColor = has('C') && has('M') && has('Y');
-  const matrix = noColor
-    ? [0.48, 0.94, 0.18, 0, -0.32, 0.48, 0.94, 0.18, 0, -0.32, 0.48, 0.94, 0.18, 0, -0.32, 0, 0, 0, 1, 0]
-    : [
-        ...(has('C') ? [0, 0, 0, 0, 1] : [1, 0, 0, 0, 0]),
-        ...(has('M') ? [0, 0, 0, 0, 1] : [0, 1, 0, 0, 0]),
-        ...(has('Y') ? [0, 0, 0, 0, 1] : [0, 0, 1, 0, 0]),
-        0, 0, 0, 1, 0,
-      ];
+ * 잉크 색이 빠진 카드는 어떤 채널이 빠졌든 색 없이 흑백(휘도)으로만 인쇄된다. */
+function InkFilter({ id }: { id: string }) {
   return (
     <svg className="cf-defs" width="0" height="0" aria-hidden="true">
       <filter id={id} colorInterpolationFilters="sRGB">
-        <feColorMatrix type="matrix" values={matrix.join(' ')} />
-        {has('K') && (
-          <feComponentTransfer>
-            <feFuncR type="linear" slope="0.7" intercept="0.28" />
-            <feFuncG type="linear" slope="0.7" intercept="0.28" />
-            <feFuncB type="linear" slope="0.7" intercept="0.28" />
-          </feComponentTransfer>
-        )}
+        <feColorMatrix type="matrix" values="0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0  0 0 0 1 0" />
       </filter>
     </svg>
   );
@@ -118,7 +100,7 @@ export function CardView({ spec, width = 320, animate = true }: Props) {
 
   return (
     <div className="cf-box" style={{ width: DESIGN_W * scale, height: DESIGN_H * scale }}>
-      {inkFilterId && <InkFilter id={inkFilterId} missing={spec.inkMissing} />}
+      {inkFilterId && <InkFilter id={inkFilterId} />}
       <div className={`cf-card ${spec.holo ? 'cf-holo' : ''} ${animate ? '' : 'cf-still'}`} style={vars}>
         <div className="cf-sheet" style={inkFilterId ? { filter: `url(#${inkFilterId})` } : undefined}>
           <div className="cf-in">

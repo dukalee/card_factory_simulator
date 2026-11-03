@@ -20,14 +20,8 @@ export function randomCut(): { x: number; y: number } {
   return { x: dx * k * CUT_MAX_X, y: dy * k * CUT_MAX_Y };
 }
 
-/** 인쇄 안 된 잉크 조합: C/M/Y/K 중 1~3개 (14가지 중 하나) */
-const INK_COMBOS: InkChannel[][] = (() => {
-  const all: InkChannel[] = ['C', 'M', 'Y', 'K'];
-  const combos: InkChannel[][] = [];
-  for (let mask = 1; mask < 15; mask++) combos.push(all.filter((_, i) => mask & (1 << i)));
-  return combos;
-})();
-export const randomInkMissing = (): InkChannel[] => [...pick(INK_COMBOS)];
+/** 잉크가 빠진 카드: 어떤 색이 빠졌든 흑백으로 인쇄된다 (렌더링은 CardView 의 InkFilter) */
+export const randomInkMissing = (): InkChannel[] => ['C', 'M', 'Y', 'K'];
 
 /** 엉뚱한 위치의 로고: 카드 내부(616×873) 좌표 후보 중 하나 + 약간의 흔들림/기울기/크기 */
 const LOGO_SPOTS: readonly [number, number][] = [

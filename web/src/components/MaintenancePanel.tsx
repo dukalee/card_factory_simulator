@@ -9,6 +9,12 @@ const EXTRA_LABEL: Record<MachineName, string> = {
   LogoMachine: '조정',
   CuttingMachine: '위치 조정',
 };
+const EXTRA_ICON: Record<MachineName, string> = {
+  InkMachine: '🖋️',
+  HoloMachine: '🌈',
+  LogoMachine: '🎯',
+  CuttingMachine: '📐',
+};
 const SHORT: Record<MachineName, string> = { InkMachine: 'Ink', HoloMachine: 'Holo', LogoMachine: 'Logo', CuttingMachine: 'Cut' };
 
 /** 선택한 머신의 정비 패널: STOP → 비밀번호 인증 → 컨트롤 활성화 */
@@ -50,19 +56,33 @@ export function MaintenancePanel({ session, active }: { session: Session; active
           ))}
         </div>
         {/* key 로 머신이 바뀔 때 입력 중이던 숫자를 초기화 */}
-        <Numpad key={name} disabled={session.running} keyboard={active} onConfirm={onPassword} />
+        <Numpad
+          key={name}
+          disabled={session.running}
+          keyboard={active}
+          onConfirm={onPassword}
+          note={session.running ? '실행 중에는 입력 불가 · STOP 후 시도하세요' : undefined}
+        />
         <div className="ctrl-row">
           <button className="btn btn-blue" disabled={!unlocked} onClick={() => onControl('extra', extraLabel)}>
+            <span className="ci" aria-hidden="true">
+              {EXTRA_ICON[name]}
+            </span>
             {extraLabel}
           </button>
           <button className="btn btn-blue" disabled={!unlocked} onClick={() => onControl('oil', '윤활')}>
+            <span className="ci" aria-hidden="true">
+              🛢️
+            </span>
             윤활
           </button>
           <button className="btn btn-blue" disabled={!unlocked} onClick={() => onControl('repair', '정비')}>
+            <span className="ci" aria-hidden="true">
+              🔧
+            </span>
             정비
           </button>
         </div>
-        {session.running && <p className="hint">실행 중에는 비밀번호를 입력할 수 없습니다. STOP 후 시도하세요.</p>}
       </div>
     </>
   );

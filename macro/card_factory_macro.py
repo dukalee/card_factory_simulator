@@ -70,7 +70,7 @@ class FactoryMacro:
         p.get_by_role("button", name=re.compile("매뉴얼")).click()
         text = p.locator(".manual-text").inner_text()
         found = dict(re.findall(r"\[(\w+Machine)\]\s+PW:\s*(\d{4})\*", text))
-        p.get_by_role("button", name="닫기").click()
+        p.locator(".modal.manual .btn-close").click()
         if len(found) != 4:
             raise MacroError(f"매뉴얼에서 비밀번호를 읽지 못했습니다: {found}")
         self.passwords = found

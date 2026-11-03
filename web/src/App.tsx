@@ -7,10 +7,11 @@ import { Session } from './sim/session';
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
-  // #cards 로 접속하면 카드 갤러리 (정적 배포에서도 동작하는 해시 라우팅)
-  const [gallery, setGallery] = useState(() => window.location.hash === '#cards');
+  // #guide(예전 주소 #cards 도 허용)로 접속하면 설명서 (정적 배포에서도 동작하는 해시 라우팅)
+  const isGuide = () => window.location.hash === '#guide' || window.location.hash === '#cards';
+  const [gallery, setGallery] = useState(isGuide);
   useEffect(() => {
-    const onHash = () => setGallery(window.location.hash === '#cards');
+    const onHash = () => setGallery(isGuide());
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, []);

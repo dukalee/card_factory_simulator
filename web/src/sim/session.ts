@@ -220,7 +220,9 @@ export class Session {
       if (card.isNormal) this.goodAccepts++;
       else this.wrongAccepts++;
     }
-    this.logger.writeJudge(name, verdict, wrongAccept);
+    // 올바른 판정: 정상 카드를 합격, 불량 카드를 불량 처리
+    const correct = verdict === 'pass' ? card.isNormal : !card.isNormal;
+    this.logger.writeJudge(name, verdict, wrongAccept, correct);
     if (this.goodAccepts >= GOAL_NORMAL_CARDS) this.finish();
     this.emit();
   }

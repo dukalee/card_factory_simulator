@@ -1,0 +1,43 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>타이틀 2-B. 투시 공장 라인</title><link rel="stylesheet" href="prod.css"><style>@font-face{font-family:'Orbitron';font-weight:900;src:url('/node_modules/@fontsource/orbitron/files/orbitron-latin-900-normal.woff2') format('woff2')}
+@font-face{font-family:'Orbitron';font-weight:700;src:url('/node_modules/@fontsource/orbitron/files/orbitron-latin-700-normal.woff2') format('woff2')}
+*{box-sizing:border-box}html,body{margin:0;height:100%;padding:0}body{font-family:'Segoe UI','Malgun Gothic',sans-serif;overflow:hidden;background:radial-gradient(1200px 600px at 50% -10%,#16314b,#0b1118);color:#cfe6fa}
+.back{position:fixed;left:14px;top:12px;z-index:50;font-size:12px;color:#fff;text-decoration:none;background:rgba(0,0,0,.45);padding:5px 12px;border-radius:999px}
+.ft{position:fixed;left:0;right:0;bottom:10px;text-align:center;font-size:12px;letter-spacing:.05em;z-index:5;color:#4b6580}
+.go{border:0;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-weight:800;font-size:20px;padding:16px 44px;border-radius:12px;cursor:pointer;box-shadow:0 8px 24px rgba(34,197,94,.4);animation:gp 2.6s ease-in-out infinite}
+.go:hover{filter:brightness(1.1)}
+@keyframes gp{50%{box-shadow:0 8px 34px rgba(34,197,94,.75)}}
+.lk{color:#7dd3fc;font-size:14px}
+
+.c{position:relative;z-index:4;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:12px;text-align:center;padding:6vh 24px 0}
+.tag{font:700 13px Orbitron;letter-spacing:.4em;color:#7dd3fc;opacity:.85}
+h1{margin:0;font:900 clamp(30px,4.8vw,66px)/1.08 Orbitron,sans-serif;letter-spacing:.1em;color:#e6f6ff;text-shadow:0 0 20px rgba(56,189,248,.65),0 0 60px rgba(14,165,233,.4)}
+h1 b{color:#38bdf8}
+.sub{max-width:600px;color:#9db4c8;font-size:17px;line-height:1.7}
+.btns{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:8px}
+.hz{position:absolute;left:0;right:0;top:52%;height:2px;background:linear-gradient(90deg,transparent,#38bdf8,transparent);box-shadow:0 0 30px 6px rgba(56,189,248,.5)}
+.floor{position:absolute;left:0;right:0;top:52%;bottom:0;background:linear-gradient(#0b1118,#101c2a)}
+.fl-grid{position:absolute;left:-40%;right:-40%;top:0;bottom:0;background:linear-gradient(rgba(56,189,248,.18) 1px,transparent 1px) 0 0/100% 56px,linear-gradient(90deg,rgba(56,189,248,.18) 1px,transparent 1px) 0 0/90px 100%;transform:perspective(520px) rotateX(64deg);transform-origin:50% 0;opacity:.8}
+.belt{position:absolute;left:0;right:0;top:52%;bottom:0;clip-path:polygon(47.5% 0,52.5% 0,86% 100%,14% 100%);background:repeating-linear-gradient(#26324a 0 22px,#39465f 22px 26px);animation:bz 1s linear infinite;box-shadow:inset 0 0 40px #000}
+@keyframes bz{to{background-position:0 52px}}
+.rail{position:absolute;top:52%;bottom:0;width:6px;background:#52708a;box-shadow:0 0 14px #38bdf8}
+.gate{position:absolute;left:50%;transform:translateX(-50%);border:4px solid rgba(91,150,200,.85);border-bottom:0;border-radius:14px 14px 0 0;background:linear-gradient(180deg,rgba(39,70,95,.45),rgba(22,42,60,.08));box-shadow:0 0 26px rgba(56,189,248,.35);z-index:2}
+.gate span{position:absolute;top:-30px;left:50%;transform:translateX(-50%);font:700 11px Orbitron;letter-spacing:.2em;color:#9db4c8;white-space:nowrap}
+.gate b{position:absolute;top:8px;left:50%;width:40%;height:6px;margin-left:-20%;border-radius:3px;background:#22c55e;box-shadow:0 0 14px #22c55e}
+.pcard{position:absolute;left:50%;top:52%;width:64px;height:90px;margin-left:-32px;transform-origin:50% 100%;animation:cm 10s linear infinite;z-index:8}
+@keyframes cm{0%{transform:translateY(0) scale(.12);opacity:0}8%{opacity:1}100%{transform:translateY(48vh) scale(2.2);opacity:1}}
+.pcard .mc{width:100%!important;filter:drop-shadow(0 8px 12px #000)}
+html,body{padding:0}</style></head><body>
+<a class="back" href="index.html">← 시안 목록</a>
+<div class="floor"></div><div class="fl-grid" style="top:52%;bottom:0"></div><div class="belt"></div><div class="hz"></div>
+<div class="c"><div class="tag">PRODUCTION LINE SIMULATION</div><h1>CARD FACTORY<br><b>SIMULATOR</b></h1>
+<div class="sub">4단계 공정을 감시하고, 이상이 생긴 머신을 복구해<br>정상 카드 10장을 가장 빨리 합격 처리하세요.</div>
+<div class="btns"><button class="go">▶ 시뮬레이터 시작</button><a class="lk" href="#">카드 갤러리 보기</a></div></div>
+<div id="gates"></div><div id="pc"></div>
+<div class="ft" style="z-index:7">© 2026 aishift. All rights reserved.</div>
+<script src="prod.js"></script><script>const names=['fire','water','grass','elec','psy','dark'];let h='';
+for(let i=0;i<6;i++){h+=`<div class="pcard" style="animation-delay:${-i*1.66}s">${card({key:names[i],holo:i%2==0,bad:false},64)}</div>`}
+document.getElementById('pc').innerHTML=h;
+// 머신 게이트: 깊이(0=먼 곳, 1=가까운 곳)에 맞춰 크기와 위치를 투시로 배치
+const G=[['1 · INK',.12],['2 · HOLO',.3],['3 · LOGO',.54],['4 · CUT',.82]];let g='';
+G.forEach(([n,d])=>{const y=52+48*d;const w=(10+67*d).toFixed(1);const hh=Math.round(46+d*200);g+=`<div class="gate" style="top:calc(${y}% - ${hh}px);width:${w}vw;height:${hh}px;z-index:${Math.round(d*5)}"><span>${n}</span><b></b></div>`});
+document.getElementById('gates').innerHTML=g;</script></body></html>
