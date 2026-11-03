@@ -3,6 +3,7 @@ import {
   MACHINE_ORDER,
   SLOW_PROCESS_TIME,
   SPEED,
+  rollProcessSeconds,
   createMachines,
   restoreMachine,
   type Machine,
@@ -284,7 +285,7 @@ export class Session {
             break;
           }
 
-          const pt = (m.processTime * 1000) / SPEED;
+          const pt = rollProcessSeconds(m) * 1000;
           this.setStatus(`${m.name}: 공정 진행 중...`);
           const start = Date.now();
           while (!this.stopFlag) {

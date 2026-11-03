@@ -24,11 +24,23 @@ export interface Machine {
   loc: number;
 }
 
-/** 시뮬레이션 속도 배율. 2 = 공정 시간과 카드 간 대기 시간이 모두 절반 (machine.processTime 값 자체는 그대로) */
+/** 시뮬레이션 속도 배율. 2 = 카드 간 대기 시간이 절반 (공정 시간은 아래 범위에서 매번 무작위로 정해짐) */
 export const SPEED = 2;
 
+/** machine.processTime 은 윤활 상태 표시값: NORMAL_PROCESS_TIME 이하면 정상, SLOW_PROCESS_TIME 이면 지연(윤활 부족) */
 export const NORMAL_PROCESS_TIME = 5;
 export const SLOW_PROCESS_TIME = 15;
+
+/** 실제 공정 시간(초) 범위: 정상 2~4초, 지연(윤활 부족) 6~10초. 공정마다 이 안에서 무작위 */
+export const NORMAL_SECONDS: readonly [number, number] = [2, 4];
+export const SLOW_SECONDS: readonly [number, number] = [6, 10];
+/** 이 시간(초)보다 오래 걸린 공정은 '공정 지연'으로 본다 (정상 최대 4초와 지연 최소 6초의 사이) */
+export const SLOW_THRESHOLD_SEC = 5;
+
+export function rollProcessSeconds(m: Pick<Machine, 'processTime'>): number {
+  const [lo, hi] = m.processTime > NORMAL_PROCESS_TIME ? SLOW_SECONDS : NORMAL_SECONDS;
+  return lo + Math.random() * (hi - lo);
+}
 
 export function createMachine(name: MachineName): Machine {
   return {

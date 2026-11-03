@@ -1,4 +1,4 @@
-import { SPEED } from './machines';
+import { SLOW_THRESHOLD_SEC } from './machines';
 
 function pad(n: number) {
   return String(n).padStart(2, '0');
@@ -25,9 +25,6 @@ export interface LogEntry {
   kind?: 'pass' | 'wrong';
 }
 
-/** 이 시간(초)보다 오래 걸린 공정은 '공정 지연' 경고로 표시 */
-const SLOW_THRESHOLD_SEC = 6 / SPEED;
-
 /** log.txt 에 해당하는 메모리 로거 (브라우저에는 파일 시스템이 없으므로 다운로드로 제공) */
 export class Logger {
   lines: string[] = [];
@@ -53,7 +50,7 @@ export class Logger {
     const slow = sec > SLOW_THRESHOLD_SEC;
     this.write(
       `PROCESS: ${machine} | ${formatTime(start)} | ${formatTime(end)}`,
-      slow ? `${machine} 공정 지연 (${sec.toFixed(1)}s)` : `${machine} 공정 완료 (${sec.toFixed(1)}s)`,
+      slow ? `${machine} 공정 지연 (${sec.toFixed(2)}s)` : `${machine} 공정 완료 (${sec.toFixed(2)}s)`,
       slow ? 'warn' : 'info',
     );
   }

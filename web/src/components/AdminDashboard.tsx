@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from 'react';
-import { MACHINE_ORDER, NORMAL_PROCESS_TIME, SPEED, type Machine, type MachineName } from '../sim/machines';
+import { MACHINE_ORDER, NORMAL_PROCESS_TIME, type Machine, type MachineName } from '../sim/machines';
 import type { ControlAction, Session } from '../sim/session';
 
 type Tone = 'ok' | 'bad' | 'warn';
@@ -28,10 +28,10 @@ function buildRows(name: MachineName, m: Machine): Row[] {
     m.oil === 1
       ? { label: '윤활유', value: '충분', tone: 'ok' }
       : { label: '윤활유', value: '부족', tone: 'bad', hint: '보충하면 공정 시간도 정상으로', fix: { action: 'oil', label: '윤활' } },
-    // 머신의 processTime 은 기준값(초)이고, 실제 걸리는 시간은 SPEED 배율로 나눈 값 (이벤트 로그의 (x.xs) 와 같은 값)
+    // 대시보드에는 정상/지연만 표시 (정확한 소요 시간은 이벤트 로그에 기록됨)
     m.processTime <= NORMAL_PROCESS_TIME
-      ? { label: '공정 시간', value: `${m.processTime / SPEED}초`, tone: 'ok', hint: '정상' }
-      : { label: '공정 시간', value: `${m.processTime / SPEED}초`, tone: 'warn', hint: '지연 중 · 윤활유를 수리하면 정상으로' },
+      ? { label: '공정 시간', value: '정상', tone: 'ok' }
+      : { label: '공정 시간', value: '지연', tone: 'warn', hint: '윤활유를 수리하면 정상으로' },
   ];
   if (name === 'InkMachine') {
     rows.push(
