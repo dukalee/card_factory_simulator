@@ -113,6 +113,7 @@ export function SimScreen({ session, onQuit }: { session: Session; onQuit: () =>
           </span>
           <span className="sp" />
           <Scoreboard session={session} />
+          <div className="top-actions">
           <button className="btn btn-admin tall" onClick={onAdmin} title="관리자 대시보드 (비밀번호 필요)">
             🛡 Admin<span className="adm-long"> Dashboard</span>
           </button>
@@ -136,6 +137,7 @@ export function SimScreen({ session, onQuit }: { session: Session; onQuit: () =>
                 <button onClick={onReset}>↺ Reset</button>
               </div>
             )}
+          </div>
           </div>
         </div>
 
@@ -172,7 +174,10 @@ export function SimScreen({ session, onQuit }: { session: Session; onQuit: () =>
               🔧
             </span>
             <span className="chev">{maintOpen ? '‹' : '›'}</span>
-            <span className="lbl">정비</span>
+            <span className="lbl" aria-label="정비">
+              <span aria-hidden="true">정</span>
+              <span aria-hidden="true">비</span>
+            </span>
             <kbd className="dh-key">Tab</kbd>
           </button>
         </div>

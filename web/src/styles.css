@@ -2631,3 +2631,231 @@ h3 {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── 반응형 보강: 어떤 화면 크기/비율에서도 가로 넘침이 없도록 ───────── */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+/* 모바일 주소창 때문에 100vh 가 잘리는 문제 → dvh 지원 시 교체 */
+@supports (height: 100dvh) {
+  body,
+  .main-screen {
+    min-height: 100dvh;
+  }
+}
+@supports (height: 100dvh) {
+  @media (min-width: 1001px) and (min-height: 561px) {
+    .app {
+      height: 100dvh;
+    }
+  }
+}
+/* 모달/패널의 고정 최소폭이 좁은 화면을 넘지 않게 */
+.modal,
+.modal.result,
+.gallery-ctl {
+  min-width: min(300px, 100%);
+}
+.modal {
+  max-width: 96vw;
+  max-height: 92vh;
+}
+@supports (height: 100dvh) {
+  .modal {
+    max-height: 92dvh;
+  }
+}
+@media (max-width: 1000px) {
+  .topbar > * {
+    min-width: 0;
+  }
+  .topbar h1 {
+    white-space: normal;
+    font-size: clamp(15px, 4.8vw, 22px);
+    letter-spacing: 0.05em;
+    flex: 1 1 100%;
+  }
+  .scoreboard {
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    max-width: 100%;
+  }
+  .modal.admin {
+    width: 100%;
+  }
+  .ad-summary {
+    grid-template-columns: 1fr;
+  }
+  .drawer-clip {
+    height: 70vh;
+    max-height: calc(100% - 24px);
+  }
+}
+@media (max-width: 520px) {
+  .modal {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .stations {
+    gap: 10px;
+  }
+  .main-screen h1 {
+    letter-spacing: 0.04em;
+    overflow-wrap: anywhere;
+  }
+  .main-screen .ms-tag {
+    letter-spacing: 0.2em;
+  }
+}
+@media (max-width: 360px) {
+  .stations {
+    grid-template-columns: 1fr;
+  }
+}
+/* 가로로 아주 낮은 화면(휴대폰 가로 등): 한 화면에 가두지 않고 스크롤 허용 */
+@media (max-height: 560px) {
+  .app {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+}
+
+/* 정비 패널: 낮은 화면에서도 숫자 키가 찌그러지거나 아래 버튼과 겹치지 않도록
+   하단 패널보다 커져야 할 때는 위쪽(스테이션 영역) 위로 겹쳐서 확장 */
+@media (min-width: 1001px) {
+  .drawer-clip {
+    top: auto;
+    bottom: 10px;
+    height: calc(100% - 24px);
+    min-height: 400px;
+  }
+}
+
+/* 정비 패널 확대: 키패드가 좁아 보이지 않도록 폭/높이를 넉넉하게 */
+@media (min-width: 1001px) {
+  .drawer-clip {
+    width: clamp(380px, 26vw, 600px);
+    min-height: 470px;
+  }
+}
+
+/* ── 상단 버튼 그룹: 화면 비율이 바뀌어도 5개 버튼은 항상 한 줄·같은 순서 ── */
+.top-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-self: stretch;
+  gap: 12px;
+  min-width: 0;
+}
+.top-actions > * {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.top-actions .btn {
+  white-space: nowrap;
+}
+.top-actions .top-menu {
+  display: flex;
+}
+@media (min-width: 1001px) {
+  .topbar {
+    flex-wrap: nowrap;
+  }
+  .topbar h1 {
+    flex: 0 1 auto;
+    min-width: 0;
+    font-size: clamp(13px, 1.45vw, 22px);
+  }
+}
+@media (min-width: 1001px) and (max-width: 1700px) {
+  .topbar .chip {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    padding: 0;
+    border: 0;
+  }
+  .adm-long {
+    display: none;
+  }
+  .score-info .pips {
+    display: none;
+  }
+}
+@media (max-width: 1000px) {
+  .top-actions {
+    flex: 1 1 100%;
+    gap: 6px;
+  }
+  .top-actions > * {
+    flex: 1 1 0;
+  }
+  .topbar .top-actions .btn {
+    width: 100%;
+    min-height: 40px;
+    padding-left: clamp(2px, 1vw, 10px);
+    padding-right: clamp(2px, 1vw, 10px);
+    font-size: clamp(10px, 3.1vw, 15px);
+    letter-spacing: 0;
+  }
+  .adm-long {
+    display: none;
+  }
+}
+
+/* 1001~1200px: 한 줄에 다 들어가도록 상단바를 압축 (배치는 그대로) */
+@media (min-width: 1001px) and (max-width: 1200px) {
+  .topbar {
+    gap: 6px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .topbar h1 {
+    flex-shrink: 0;
+    font-size: 12.5px;
+    letter-spacing: 0.03em;
+  }
+  .top-actions {
+    gap: 6px;
+  }
+  .topbar .top-actions .btn {
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 13px;
+  }
+  .scoreboard {
+    gap: 8px;
+    padding: 4px 8px;
+  }
+}
+
+/* 정비 손잡이 글자: writing-mode 전환 대신 글자를 쌓아서 표시
+   (브라우저가 세로/가로 쓰기 전환 후 글자 배치를 잘못 유지하는 문제 방지) */
+.drawer-handle .lbl,
+.maint-dock .drawer-handle .lbl {
+  writing-mode: horizontal-tb;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+@media (max-width: 1000px) {
+  .drawer-handle .lbl,
+  .maint-dock .drawer-handle .lbl {
+    flex-direction: row;
+    letter-spacing: 0.1em;
+  }
+}
